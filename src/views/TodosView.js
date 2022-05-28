@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Container from '../components/Container/Container';
 import TodoList from '../components/TodoList/TodoList';
 import TodoEditor from '../components/TodoEditor/TodoEditor';
-// import Stats from '../components/Stats/Stats';
+import Stats from '../components/Stats/Stats';
 import Filter from '../components/TodoFilter/TodoFilter';
 import Modal from '../components/Modal/Modal';
 import IconButton from '../components/IconButton/IconButton';
@@ -55,13 +55,13 @@ class TodosView extends Component {
   //   }));
   // };
 
-  toggleCompleted = todoId => {
-    this.setState(({ todos }) => ({
-      todos: todos.map(todo =>
-        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    }));
-  };
+  // toggleCompleted = todoId => {
+  //   this.setState(({ todos }) => ({
+  //     todos: todos.map(todo =>
+  //       todo.id === todoId ? { ...todo, completed: !todo.completed } : todo,
+  //     ),
+  //   }));
+  // };
 
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
@@ -75,15 +75,6 @@ class TodosView extends Component {
   //     text.toLowerCase().includes(normalizedFilter),
   //   );
   // };
-
-  calculateCompletedTodos = () => {
-    const { todos } = this.state;
-
-    return todos.reduce(
-      (total, todo) => (todo.completed ? total + 1 : total),
-      0,
-    );
-  };
 
   toggleModal = () => {
     this.setState(({ showModal }) => ({
@@ -105,7 +96,7 @@ class TodosView extends Component {
 
         {showModal && (
           <Modal onClose={this.toggleModal}>
-            <TodoEditor />
+            <TodoEditor onSave={this.toggleModal} />
           </Modal>
         )}
 
@@ -114,7 +105,7 @@ class TodosView extends Component {
           <p>Всего заметок: {totalTodoCount}</p>
           <p>Выполнено: {completedTodoCount}</p>
         </div> */}
-        {/* <Stats total={totalTodoCount} completed={completedTodoCount} /> */}
+        <Stats />
 
         <Filter />
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { deleteDoto } from '../../rudux/todos/todos-actions';
+import { deleteDoto, toggleCompleted } from '../../rudux/todos/todos-actions';
 import Todo from '../Todo/Todo';
 import './TodoList.css';
 
@@ -43,7 +43,7 @@ const mapStateToProps = ({ todos: { items, filter } }) => ({
 
 const mapDispatchToProps = dispatch => ({
   onDeleteTodo: id => dispatch(deleteDoto(id)),
-  onToggleCompleted: () => null,
+  onToggleCompleted: id => dispatch(toggleCompleted(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
