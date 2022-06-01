@@ -1,44 +1,38 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { addTodo } from '../../rudux/todos/todos-actions';
 import './TodoEditor.css';
 
-class TodoEditor extends Component {
-  state = {
-    message: '',
+export default function TodoEditor({ onSave }) {
+  const [message, setMessage] = useState('');
+  const dispatch = useDispatch();
+
+  const handleChange = e => {
+    setMessage(e.target.value);
   };
 
-  handleChange = e => {
-    this.setState({ message: e.currentTarget.value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
+    if (message === '') {
+      return alert('Заповни текст замітки');
+    }
 
-    this.props.onSubmit(this.state.message);
-    this.props.onSave();
+    dispatch(addTodo(message));
+    onSave();
 
-    this.setState({ message: '' });
+    setMessage('');
   };
 
-  render() {
-    return (
-      <form className="TodoEditor" onSubmit={this.handleSubmit}>
-        <textarea
-          className="TodoEditor__textarea"
-          value={this.state.message}
-          onChange={this.handleChange}
-        ></textarea>
-        <button type="submit" className="TodoEditor__button">
-          Сохранить
-        </button>
-      </form>
-    );
-  }
+  return (
+    <form className="TodoEditor" onSubmit={handleSubmit}>
+      <textarea
+        className="TodoEditor__textarea"
+        value={message}
+        onChange={handleChange}
+      ></textarea>
+      <button type="submit" className="TodoEditor__button">
+        Сохранить
+      </button>
+    </form>
+  );
 }
-
-const mapDispatchToProps = dispatch => ({
-  onSubmit: text => dispatch(addTodo(text)),
-});
-
-export default connect(null, mapDispatchToProps)(TodoEditor);

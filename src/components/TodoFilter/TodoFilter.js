@@ -1,26 +1,20 @@
-import { connect } from 'react-redux';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilter } from '../../rudux/todos/todos-selectors';
 import './TodoFilter.css';
 import { changeFilter } from '../../rudux/todos/todos-actions';
 
-const TodoFilter = ({ value, onChange }) => (
-  <div className="TodoFilter">
-    <p className="TodoFilter__label">Фильтр по содержимому</p>
-    <input
-      type="text"
-      className="TodoFilter__input"
-      value={value}
-      onChange={onChange}
-    />
-  </div>
-);
-
-const mapStateToProps = state => ({
-  value: state.todos.filter,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onChange: e => dispatch(changeFilter(e.target.value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TodoFilter);
+export default function TodoFilter() {
+  const value = useSelector(getFilter);
+  const dispatch = useDispatch();
+  return (
+    <div className="TodoFilter">
+      <p className="TodoFilter__label">Фильтр по содержимому</p>
+      <input
+        type="text"
+        className="TodoFilter__input"
+        value={value}
+        onChange={e => dispatch(changeFilter(e.target.value))}
+      />
+    </div>
+  );
+}
